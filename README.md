@@ -2,9 +2,37 @@
 
 Use icon fonts inside QIcon with [NodeGui](https://github.com/nodegui/nodegui).
 
-WORK IN PROGRESS
+TypeScript example:
+
+```typescript
+//...
+import { createFontIcon } from 'nodegui-plugin-font-icon';
+//...
+
+// Load in our custom icon font
+const extraicons = path.join(__dirname, "../resources/extraicons.ttf");
+QFontDatabase.addApplicationFont(extraicons);
+
+//...
+
+const button = new QPushButton();
+const icon = createFontIcon(font, "\uEA09");  // Pocketknife icon
+button.setIcon(icon);
+button.setText('Font Icon');
+
+//...
+```
 
 
+Install via NPM:
+
+```
+npm install nodegui-plugin-font-icon
+```
+
+For the API see [src/index.ts](src/index.ts)
+
+For a complete demo see [src/demo.ts](src/demo.ts)
 
 # Maintainer
 
