@@ -13,6 +13,13 @@
     },
     "author": "Simon Edwards",
     "license": "MIT",
+    "files": [
+        "src/cpp/*",
+        "src/addon.ts",
+        "src/index.ts",
+        "README.md",
+        "CMakeLists.txt"
+    ],
     "peerDependencies": {
         "@nodegui/nodegui": ">=0.35.0"
     },
