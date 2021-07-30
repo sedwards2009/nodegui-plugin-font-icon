@@ -41,3 +41,10 @@ Simon Edwards <simon@simonzone.com>
 # License
 
 MIT
+
+# Release Process (for maintainers)
+
+* Make sure the version in `package.json` is correct.
+* Tag the version with git (format: v1.2.3).
+* Push the tag to origin.
+* Wait for GitHub Action to build and release to NPM.
