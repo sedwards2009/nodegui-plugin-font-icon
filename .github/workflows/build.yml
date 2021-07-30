@@ -35,7 +35,6 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install ubuntu deps
-        if: contains(matrix.os, 'ubuntu')
         run: |
           sudo apt-get update
           sudo apt-get install pkg-config build-essential
