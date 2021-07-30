@@ -6,17 +6,21 @@
     "typings": "dist/index.d.ts",
     "scripts": {
         "build": "npm run build:ts && npm run build:addon",
+        "clean": "rimraf dist build",
         "postinstall": "npm run build:addon",
         "build:addon": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=8 cmake-js compile",
         "build:ts": "tsc",
+        "prepublish": "npm run clean && npm run build:ts",
         "demo": "qode dist/demo.js"
     },
-    "author": "Simon Edwards",
+    "author": "Simon Edwards <simon@simonzone.com>",
     "license": "MIT",
     "files": [
         "src/cpp/*",
-        "src/addon.ts",
-        "src/index.ts",
+        "dist/addon.js",
+        "dist/index.js",
+        "dist/addon.d.ts",
+        "dist/index.d.ts",
         "README.md",
         "CMakeLists.txt"
     ],
@@ -31,6 +35,7 @@
     "devDependencies": {
         "@nodegui/nodegui": "^0.35.0",
         "@types/node": "^14.0.5",
+        "rimraf": "^3.0.2",
         "typescript": "~3.9.3"
     }
 }
