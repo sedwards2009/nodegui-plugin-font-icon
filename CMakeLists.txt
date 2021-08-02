@@ -21,6 +21,19 @@ add_library(${PLUGIN_ADDON_NAME} SHARED
 
 AddPluginConfig(${PLUGIN_ADDON_NAME})
 
+if (UNIX)
+    # Make the output shared library's RPATH relative so that it can
+    # find the other Qt and NodeGui libs even if the dir is moved.
+
+    get_filename_component(NODEGUI_LIBRARY_DIR "${NODEGUI_LIBRARY}" DIRECTORY)
+    file(RELATIVE_PATH NODEGUI_LIBRARY_REL_PATH "${CMAKE_BINARY_DIR}/Release" "${NODEGUI_LIBRARY_DIR}")
+
+    file(RELATIVE_PATH QT_LIBRARY_REL_PATH "${CMAKE_BINARY_DIR}/Release" "${QT_CMAKE_HOME_DIR}/../..")
+
+    set_target_properties(${PLUGIN_ADDON_NAME}
+        PROPERTIES BUILD_RPATH "\$ORIGIN/${NODEGUI_LIBRARY_REL_PATH}:\$ORIGIN/${QT_LIBRARY_REL_PATH}")
+endif()
+
 target_include_directories(${PLUGIN_ADDON_NAME} PRIVATE
     "${CMAKE_JS_INC}"
     "${PROJECT_SOURCE_DIR}"
