@@ -1,6 +1,6 @@
 {
     "name": "nodegui-plugin-font-icon",
-    "version": "0.1.8",
+    "version": "0.1.9",
     "description": "Use icon fonts inside QIcon with NodeGui",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -29,7 +29,7 @@
         "cmake-js": "^6.1.0",
         "cross-env": "^7.0.2",
         "node-addon-api": "^3.0.0",
-        "@nodegui/nodegui": "^0.44.0"
+        "@nodegui/nodegui": "^0.45.0"
     },
     "devDependencies": {
         "@types/node": "^14.0.5",
