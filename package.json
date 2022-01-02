@@ -1,17 +1,17 @@
 {
     "name": "nodegui-plugin-font-icon",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "description": "Use icon fonts inside QIcon with NodeGui",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
     "scripts": {
         "build": "npm run build:ts && npm run build:addon",
         "clean": "rimraf dist build",
-        "postinstall": "echo 'Remember to run the finish-install script to complete installation.'",
-        "finish-install": "npm run build:addon",
+        "install": "npm run setupbinary || npm run build:addon",
         "build:addon": "cross-env CMAKE_BUILD_PARALLEL_LEVEL=8 cmake-js compile",
         "build:ts": "tsc",
         "prepublish": "npm run clean && npm run build:ts",
+        "setupbinary": "node ./scripts/setupBinary.js",
         "demo": "qode dist/demo.js"
     },
     "author": "Simon Edwards <simon@simonzone.com>",

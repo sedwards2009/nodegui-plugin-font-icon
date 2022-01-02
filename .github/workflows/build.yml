@@ -26,7 +26,94 @@ jobs:
       - name: Build
         run: npm run build
 
-  release-tag-to-npm:
+  create-release:
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Create GH release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: false
+          prerelease: false
+          tag_name: ${{github.ref_name}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  precompile:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: create-release
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-18.04
+            platform: linux
+            arch: x64
+          - os: windows-latest
+            platform: win32
+            arch: x64
+          - os: macos-latest
+            platform: darwin
+            arch: x64
+    runs-on: ${{ matrix.os }}
+    env:
+      ARCHIVE_FILENAME: nodegui-plugin-font-icon-binary-${{github.ref_name}}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+
+      - name: Install ubuntu deps
+        if: contains(matrix.os, 'ubuntu')
+        run: sudo apt install mesa-common-dev libglu1-mesa-dev
+
+      - name: Install deps
+        run: npm install
+
+      - name: Build nodegui
+        run: npm run build
+        env:
+          CMAKE_BUILD_PARALLEL_LEVEL: 8
+
+      - name: Compress files
+        if: ${{!contains(matrix.os, 'windows')}}
+        uses: a7ul/tar-action@v1.0.2
+        id: compress
+        with:
+          command: c
+          cwd: ./build/Release
+          files: |
+            ./nodegui_core.node
+          outPath: ${{ env.ARCHIVE_FILENAME }}
+
+      - name: Compress files (Windows)
+        if: contains(matrix.os, 'windows')
+        uses: a7ul/tar-action@v1.0.2
+        id: compress-windows
+        with:
+          command: c
+          cwd: ./build/Release
+          files: |
+            ./nodegui_core.node
+            ./nodegui_core.lib
+            ./nodegui_core.exp
+          outPath: ${{ env.ARCHIVE_FILENAME }}
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: ${{ env.ARCHIVE_FILENAME }}
+          path: ${{ env.ARCHIVE_FILENAME }}
+
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["${{ env.ARCHIVE_FILENAME }}"]'
+
+  release-to-npm:
+    needs: precompile
     runs-on: ubuntu-18.04
     if: startsWith(github.ref, 'refs/tags/')
     steps:
@@ -52,11 +139,3 @@ jobs:
       - run: npm publish --access=public
         env:
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-
-      - name: Create GH release
-        uses: softprops/action-gh-release@v1
-        with:
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
