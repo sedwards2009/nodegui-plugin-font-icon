@@ -41,7 +41,6 @@ jobs:
   precompile:
     if: startsWith(github.ref, 'refs/tags/')
     needs: create-release
-    runs-on: ubuntu-18.04
     strategy:
       matrix:
         include:
