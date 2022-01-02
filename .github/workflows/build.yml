@@ -72,7 +72,7 @@ jobs:
       - name: Install deps
         run: npm install
 
-      - name: Build nodegui
+      - name: Build
         run: npm run build
         env:
           CMAKE_BUILD_PARALLEL_LEVEL: 8
@@ -85,7 +85,7 @@ jobs:
           command: c
           cwd: ./build/Release
           files: |
-            ./nodegui_core.node
+            ./nodegui_plugin_font_icon.node
           outPath: ${{ env.ARCHIVE_FILENAME }}
 
       - name: Compress files (Windows)
@@ -96,9 +96,9 @@ jobs:
           command: c
           cwd: ./build/Release
           files: |
-            ./nodegui_core.node
-            ./nodegui_core.lib
-            ./nodegui_core.exp
+            ./nodegui_plugin_font_icon_core.node
+            ./nodegui_plugin_font_icon_core.lib
+            ./nodegui_plugin_font_icon_core.exp
           outPath: ${{ env.ARCHIVE_FILENAME }}
 
       - uses: actions/upload-artifact@v1
