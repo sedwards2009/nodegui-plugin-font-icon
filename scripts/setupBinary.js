@@ -10,7 +10,7 @@ const packageJson = require('../package');
 
 async function setupBinary() {
     const packageVersion = packageJson.version;
-    const tarballName = `nodegui-plugin-font-icon-v${packageVersion}-${os.platform()}-${os.arch()}.tar.gz`;
+    const tarballName = `nodegui-plugin-font-icon-binary-v${packageVersion}-${os.platform()}-${os.arch()}.tar.gz`;
     const url = `https://github.com/sedwards2009/nodegui-plugin-font-icon/releases/download/v${packageVersion}/${tarballName}`;
 
     await setupArtifact({
