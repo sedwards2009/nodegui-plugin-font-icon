@@ -21,7 +21,7 @@ add_library(${PLUGIN_ADDON_NAME} SHARED
 
 AddPluginConfig(${PLUGIN_ADDON_NAME})
 
-if (LINUX)
+if (UNIX AND NOT APPLE)
     # Make the output shared library's RPATH relative so that it can
     # find the other Qt and NodeGui libs even if the dir is moved.
 
