@@ -22,6 +22,7 @@
         "dist/index.js",
         "dist/addon.d.ts",
         "dist/index.d.ts",
+        "scripts/setupBinary.js",
         "README.md",
         "CMakeLists.txt"
     ],
