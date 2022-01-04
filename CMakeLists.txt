@@ -25,22 +25,17 @@ if (UNIX AND NOT APPLE)
     # Make the output shared library's RPATH relative so that it can
     # find the other Qt and NodeGui libs even if the dir is moved.
 
-    get_filename_component(NODEGUI_LIBRARY_DIR "${NODEGUI_LIBRARY}" DIRECTORY)
-    file(RELATIVE_PATH NODEGUI_LIBRARY_REL_PATH "${CMAKE_BINARY_DIR}/Release" "${NODEGUI_LIBRARY_DIR}")
-
-    file(RELATIVE_PATH QT_LIBRARY_REL_PATH "${CMAKE_BINARY_DIR}/Release" "${QT_CMAKE_HOME_DIR}/../..")
-
-    set_target_properties(${PLUGIN_ADDON_NAME}
-        PROPERTIES BUILD_RPATH "\$ORIGIN/${NODEGUI_LIBRARY_REL_PATH}:\$ORIGIN/${QT_LIBRARY_REL_PATH}")
+    # NodeGui and qode are assumed to be in the same node_modules directory as nodegui-plugin-font-icon.
+    set_target_properties(${PLUGIN_ADDON_NAME} PROPERTIES
+        INSTALL_RPATH "\$ORIGIN/../../../@nodegui/nodegui/miniqt/5.14.1/gcc_64/lib:\$ORIGIN/../../../@nodegui/nodegui/build/Release")
+    set_target_properties(${PLUGIN_ADDON_NAME} PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
 if (APPLE)
-    get_filename_component(NODEGUI_LIBRARY_DIR "${NODEGUI_LIBRARY}" DIRECTORY)
-    file(RELATIVE_PATH NODEGUI_LIBRARY_REL_PATH "${CMAKE_BINARY_DIR}/Release" "${NODEGUI_LIBRARY_DIR}")
-    file(RELATIVE_PATH QT_LIBRARY_REL_PATH "${CMAKE_BINARY_DIR}/Release" "${QT_CMAKE_HOME_DIR}/../..")
-    set_target_properties(${CORE_WIDGETS_ADDON} PROPERTIES INSTALL_RPATH "@loader_path/${NODEGUI_LIBRARY_REL_PATH}:@loader_path/${QT_LIBRARY_REL_PATH}")
-    set_target_properties(${CORE_WIDGETS_ADDON} PROPERTIES SKIP_BUILD_RPATH FALSE)
-    set_target_properties(${CORE_WIDGETS_ADDON} PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
+    set_target_properties(${PLUGIN_ADDON_NAME} PROPERTIES
+        INSTALL_RPATH "@loader_path/../../../@nodegui/nodegui/miniqt/5.14.1/clang_64/lib:@loader_path/../../../@nodegui/nodegui/build/Release")
+    set_target_properties(${PLUGIN_ADDON_NAME} PROPERTIES SKIP_BUILD_RPATH FALSE)
+    set_target_properties(${PLUGIN_ADDON_NAME} PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
 target_include_directories(${PLUGIN_ADDON_NAME} PRIVATE
