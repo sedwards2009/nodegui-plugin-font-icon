@@ -2,12 +2,13 @@
 #include "FontIcon.h"
 
 
-FontIconEngine::FontIconEngine(QFont font, QString text, qreal scale, QRgb normalOnRgb, QRgb disabledOnRgb,
-                               QRgb activeOnRgb, QRgb selectedOnRgb, QRgb normalOffRgb, QRgb disabledOffRgb,
-                               QRgb activeOffRgb, QRgb selectedOffRgb) : QIconEngine() {
+FontIconEngine::FontIconEngine(QFont font, QString text, qreal scale, qreal rotation, QRgb normalOnRgb,
+                               QRgb disabledOnRgb, QRgb activeOnRgb, QRgb selectedOnRgb, QRgb normalOffRgb,
+                               QRgb disabledOffRgb, QRgb activeOffRgb, QRgb selectedOffRgb) : QIconEngine() {
     m_font = font;
     m_text = text;
     m_scale = scale;
+    m_rotation = rotation;
 
     m_rgb[0] = normalOnRgb;
     m_rgb[1] = disabledOnRgb;
@@ -20,8 +21,8 @@ FontIconEngine::FontIconEngine(QFont font, QString text, qreal scale, QRgb norma
 }
 
 QIconEngine* FontIconEngine::clone() const {
-    return new FontIconEngine(m_fontName, m_text, m_scale, m_rgb[0], m_rgb[1], m_rgb[2], m_rgb[3], m_rgb[4], m_rgb[5],
-                              m_rgb[6], m_rgb[7]);
+    return new FontIconEngine(m_fontName, m_text, m_scale, m_rotation, m_rgb[0], m_rgb[1], m_rgb[2], m_rgb[3], m_rgb[4],
+                              m_rgb[5], m_rgb[6], m_rgb[7]);
 }
 
 void FontIconEngine::paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state) {
@@ -33,6 +34,13 @@ void FontIconEngine::paint(QPainter *painter, const QRect &rect, QIcon::Mode mod
     QFont font = m_font;
     font.setPixelSize(round(rect.height() * m_scale));
     painter->setFont(font);
+
+    if (m_rotation != 0.0) {
+        qreal height = rect.height();
+        qreal width = rect.width();
+        auto transform = QTransform().translate(width/2, height/2).rotate(m_rotation).translate(-width/2, -height/2);
+        painter->setTransform(transform);
+    }
 
     painter->drawText(rect, Qt::AlignCenter, m_text);
     painter->restore();
@@ -48,9 +56,9 @@ QPixmap FontIconEngine::pixmap(const QSize &size, QIcon::Mode mode, QIcon::State
     return pix;
 }
 
-QIcon* FontIconEngine::createIcon(QFont font, QString text, qreal scale,
+QIcon* FontIconEngine::createIcon(QFont font, QString text, qreal scale, qreal rotation,
                                   QRgb normalOnRgb, QRgb disabledOnRgb, QRgb activeOnRgb, QRgb selectedOnRgb,
                                   QRgb normalOffRgb, QRgb disabledOffRgb, QRgb activeOffRgb, QRgb selectedOffRgb) {
-    return new QIcon(new FontIconEngine(font, text, scale, normalOnRgb, disabledOnRgb, activeOnRgb, selectedOnRgb,
-                                        normalOffRgb, disabledOffRgb, activeOffRgb, selectedOffRgb));
+    return new QIcon(new FontIconEngine(font, text, scale, rotation, normalOnRgb, disabledOnRgb, activeOnRgb,
+                                        selectedOnRgb, normalOffRgb, disabledOffRgb, activeOffRgb, selectedOffRgb));
 }

@@ -47,6 +47,20 @@ button4.setText('Font Icon 64x64');
 button4.setIconSize(new QSize(64, 64));
 rootLayout.addWidget(button4);
 
+const buttonRotation90 = new QPushButton();
+const iconRotation90 = createFontIcon(font, "\uEA09", { rotation: 90 });
+buttonRotation90.setIcon(iconRotation90);
+buttonRotation90.setText('Font Icon Rotation 90');
+buttonRotation90.setIconSize(new QSize(64, 64));
+rootLayout.addWidget(buttonRotation90);
+
+const buttonRotation180 = new QPushButton();
+const iconRotation180 = createFontIcon(font, "\uEA09", { rotation: 180 });
+buttonRotation180.setIcon(iconRotation180);
+buttonRotation180.setText('Font Icon Rotation 180');
+buttonRotation180.setIconSize(new QSize(64, 64));
+rootLayout.addWidget(buttonRotation180);
+
 win.setCentralWidget(centralWidget);
 
 win.show();

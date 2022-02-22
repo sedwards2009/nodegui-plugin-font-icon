@@ -4,6 +4,11 @@ import addon from './addon';
 
 export interface CreateFontIconOptions {
     /**
+     * Degrees to rotate the icon by.
+     */
+    rotation?: number;
+
+    /**
      * Number to scale the size of the icon by.
      */
     scale?: number;
@@ -82,6 +87,7 @@ export function createFontIcon(font: QFont, text: string, options?: CreateFontIc
     options = options ?? {};
 
     const scale = options.scale ?? 1.0;
+    const rotation = options.rotation ?? 0.0;
 
     const palette = QApplication.instance().palette();
     const buttonTextRgb = palette.color(ColorGroup.Active, ColorRole.ButtonText).rgba();
@@ -97,7 +103,7 @@ export function createFontIcon(font: QFont, text: string, options?: CreateFontIc
     const activeOffRgb = rgbaToQrgb(options.activeOffRgba) ?? buttonTextRgb;
     const selectedOffRgb = rgbaToQrgb(options.selectedOffRgba) ?? highlightedTextRgb;
 
-    const qiconNative = addon.FontIconCreateIcon(font.native, text, scale,
+    const qiconNative = addon.FontIconCreateIcon(font.native, text, scale, rotation,
         normalOnRgb, disabledOnRgb, activeOnRgb, selectedOnRgb,
         normalOffRgb, disabledOffRgb, activeOffRgb, selectedOffRgb);
     return new QIcon(qiconNative);
