@@ -27,13 +27,13 @@ if (UNIX AND NOT APPLE)
 
     # NodeGui and qode are assumed to be in the same node_modules directory as nodegui-plugin-font-icon.
     set_target_properties(${PLUGIN_ADDON_NAME} PROPERTIES
-        INSTALL_RPATH "\$ORIGIN/../../../@nodegui/nodegui/miniqt/5.14.1/gcc_64/lib:\$ORIGIN/../../../@nodegui/nodegui/build/Release")
+        INSTALL_RPATH "\$ORIGIN/../../../@nodegui/nodegui/miniqt/5.15.2/gcc_64/lib:\$ORIGIN/../../../@nodegui/nodegui/build/Release")
     set_target_properties(${PLUGIN_ADDON_NAME} PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
 if (APPLE)
     set_target_properties(${PLUGIN_ADDON_NAME} PROPERTIES
-        INSTALL_RPATH "@loader_path/../../../@nodegui/nodegui/miniqt/5.14.1/clang_64/lib:@loader_path/../../../@nodegui/nodegui/build/Release")
+        INSTALL_RPATH "@loader_path/../../../@nodegui/nodegui/miniqt/5.15.2/clang_64/lib:@loader_path/../../../@nodegui/nodegui/build/Release")
     set_target_properties(${PLUGIN_ADDON_NAME} PROPERTIES SKIP_BUILD_RPATH FALSE)
     set_target_properties(${PLUGIN_ADDON_NAME} PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
 endif()

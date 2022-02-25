@@ -28,11 +28,7 @@ Install via NPM:
 
 ```
 npm install nodegui-plugin-font-icon
-cd node_modules/nodegui-plugin-font-icon
-npm run finish-install
 ```
-
-(Note: The last few steps exist to compensate for bad semantics of `postinstall` scripts.)
 
 For the API see [src/index.ts](src/index.ts)
 
