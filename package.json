@@ -38,5 +38,8 @@
         "cross-env": "^7.0.2",
         "rimraf": "^3.0.2",
         "typescript": "~3.9.3"
+    },
+    "overrides": {
+        "7zip-bin": "5.1.1"
     }
 }
