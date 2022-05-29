@@ -38,7 +38,12 @@ void FontIconEngine::paint(QPainter *painter, const QRect &rect, QIcon::Mode mod
     if (m_rotation != 0.0) {
         qreal height = rect.height();
         qreal width = rect.width();
-        auto transform = QTransform().translate(width/2, height/2).rotate(m_rotation).translate(-width/2, -height/2);
+        int centreX = rect.left() + width/2;
+        int centreY = rect.top() + height/2;
+        auto transform = QTransform()
+            .translate(centreX, centreY)
+            .rotate(m_rotation)
+            .translate(-centreX, -centreY);
         painter->setTransform(transform);
     }
 
