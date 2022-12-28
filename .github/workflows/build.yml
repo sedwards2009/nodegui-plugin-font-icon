@@ -97,8 +97,6 @@ jobs:
           cwd: ./build/Release
           files: |
             ./nodegui_plugin_font_icon.node
-            ./nodegui_plugin_font_icon.lib
-            ./nodegui_plugin_font_icon.exp
           outPath: ${{ env.ARCHIVE_FILENAME }}
 
       - uses: actions/upload-artifact@v1
