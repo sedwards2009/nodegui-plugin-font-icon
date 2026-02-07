@@ -8,13 +8,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-          os: [ubuntu-20.04, windows-latest, macos-latest]
+          os: [ubuntu-24.04, windows-2025, macos-14]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
+          node-version: '24.x'
       - name: Install ubuntu deps
         if: contains(matrix.os, 'ubuntu')
         run: |
@@ -29,7 +29,7 @@ jobs:
 
   create-release:
     if: startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Create GH release
         uses: softprops/action-gh-release@v1
@@ -46,15 +46,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-24.04
             platform: linux
             arch: x64
-          - os: windows-latest
+          - os: windows-2025
             platform: win32
             arch: x64
-          - os: macos-latest
+          - os: macos-14
             platform: darwin
-            arch: x64
+            arch: arm64
     runs-on: ${{ matrix.os }}
     env:
       ARCHIVE_FILENAME: nodegui-plugin-font-icon-binary-${{github.ref_name}}-${{ matrix.platform }}-${{ matrix.arch }}.tar.gz
@@ -63,7 +63,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
+          node-version: '24.x'
 
       - name: Install ubuntu deps
         if: contains(matrix.os, 'ubuntu')
@@ -113,13 +113,13 @@ jobs:
 
   release-to-npm:
     needs: precompile
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
+          node-version: '24.x'
       - name: Install ubuntu deps
         run: |
           sudo apt-get update
