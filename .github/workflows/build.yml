@@ -99,7 +99,7 @@ jobs:
             ./nodegui_plugin_font_icon.node
           outPath: ${{ env.ARCHIVE_FILENAME }}
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARCHIVE_FILENAME }}
           path: ${{ env.ARCHIVE_FILENAME }}
