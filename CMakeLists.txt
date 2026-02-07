@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.5)
 # -------------- Plugin Config ---------------
 execute_process(COMMAND node -p "require('@nodegui/nodegui/plugin').CMAKE_HELPER_FILE"
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
